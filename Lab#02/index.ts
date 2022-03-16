@@ -6,7 +6,6 @@ const app = express()
 let notes: Note[] = []
 
 
-
 class Note {
     title: string
     content: string
@@ -74,7 +73,7 @@ app.put('/note/:id', (req: Request, res: Response) => {
     try{
         const note = notes.find(note => note.id === Number(req.params.id))
         const updatedNote = new Note(req.body.note)
-        const index = notes.indexOf(note)
+        const index = notes.findIndex(note => note.id === Number(req.params.id))
         notes[index] = updatedNote
         res.status(200).send(updatedNote)
     }
@@ -82,6 +81,18 @@ app.put('/note/:id', (req: Request, res: Response) => {
         res.send('Cannot update note of id: ' + req.params.id)
     }
 })
+//delete a note
+app.delete('/note/:id', (req: Request, res: Response) => {
+    try{
+        const index = notes.findIndex(note => note.id === Number(req.params.id))
+        notes.splice(index, 1)
+        res.send(notes)
+    }
+    catch{
+        res.send('Cannot delete note of id: ' + req.params.id)
+    }
+})
+
 
 
 app.post('/', (req: Request, res: Response) => {
