@@ -44,7 +44,6 @@ app.post('/note', (req: Request, res: Response) => {
                 notes.push(new Note(note))
                 res.status(200).send(notes)
             })
-	    
 	    console.log(notes)
         }catch{
             res.status(500).send('error')
@@ -54,9 +53,9 @@ app.post('/note', (req: Request, res: Response) => {
             const note = new Note(req.body.note)
             notes.push(note)
             res.send(note)
-	    console.log(notes)
+	        console.log(notes)
         }catch{
-            res.send(err)
+            res.send('error')
         }
         
     }
