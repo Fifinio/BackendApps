@@ -1,5 +1,5 @@
-import express from 'express'
-import e, {Request, Response} from 'express'
+import express from 'express';
+import e, {Request, Response} from 'express';
 
 const app = express()
 
@@ -32,10 +32,11 @@ notes.push(new Note({title:'The greatest achievement of humankind', content:'The
 
 app.get('/notes',  (req: Request, res: Response) => {
     res.send(notes)    
+    console.log(notes)
 })
 
 //create a new note
-app.post('/create', (req: Request, res: Response) => {
+app.post('/note', (req: Request, res: Response) => {
     if(req.body.notes !== undefined) {
         try{
             const reqNotes: Note[]  = req.body.notes;
@@ -43,6 +44,8 @@ app.post('/create', (req: Request, res: Response) => {
                 notes.push(new Note(note))
                 res.status(200).send(notes)
             })
+	    
+	    console.log(notes)
         }catch{
             res.status(500).send('error')
         }
@@ -51,8 +54,9 @@ app.post('/create', (req: Request, res: Response) => {
             const note = new Note(req.body.note)
             notes.push(note)
             res.send(note)
+	    console.log(notes)
         }catch{
-            res.send('error')
+            res.send(err)
         }
         
     }
@@ -62,6 +66,7 @@ app.get('/note/:id', (req: Request, res: Response) => {
     try{
         const note = notes.find(note => note.id === Number(req.params.id))
         res.status(200).send(note)
+	console.log(notes)
     }
     catch{
         res.send('Cannot get note of id: ' + req.params.id)
@@ -76,6 +81,8 @@ app.put('/note/:id', (req: Request, res: Response) => {
         const index = notes.findIndex(note => note.id === Number(req.params.id))
         notes[index] = updatedNote
         res.status(200).send(updatedNote)
+
+	console.log(notes)
     }
     catch{
         res.send('Cannot update note of id: ' + req.params.id)
@@ -87,6 +94,7 @@ app.delete('/note/:id', (req: Request, res: Response) => {
         const index = notes.findIndex(note => note.id === Number(req.params.id))
         notes.splice(index, 1)
         res.send(notes)
+	console.log(notes)
     }
     catch{
         res.send('Cannot delete note of id: ' + req.params.id)
